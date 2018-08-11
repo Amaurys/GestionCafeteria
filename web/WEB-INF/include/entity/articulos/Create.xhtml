@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ArticulosCreateDlg" widgetVar="ArticulosCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateArticulosTitle}" closeOnEscape="true">
+
+            <h:form id="ArticulosCreateForm">
+
+                <h:panelGroup id="display" rendered="#{articulosController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateArticulosLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{articulosController.selected.nombre}" title="#{myBundle.CreateArticulosTitle_nombre}" required="true" requiredMessage="#{myBundle.CreateArticulosRequiredMessage_nombre}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.CreateArticulosLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{articulosController.selected.descripcion}" title="#{myBundle.CreateArticulosTitle_descripcion}" size="150" maxlength="150"/>
+
+                        <p:outputLabel value="#{myBundle.CreateArticulosLabel_costo}" for="costo" />
+                        <p:inputText id="costo" value="#{articulosController.selected.costo}" title="#{myBundle.CreateArticulosTitle_costo}" required="true" requiredMessage="#{myBundle.CreateArticulosRequiredMessage_costo}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateArticulosLabel_existencia}" for="existencia" />
+                        <p:inputText id="existencia" value="#{articulosController.selected.existencia}" title="#{myBundle.CreateArticulosTitle_existencia}" required="true" requiredMessage="#{myBundle.CreateArticulosRequiredMessage_existencia}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateArticulosLabel_estado}" for="estado" />
+                        <p:selectBooleanCheckbox id="estado" value="#{articulosController.selected.estado}" />
+
+                        <p:outputLabel value="#{myBundle.CreateArticulosLabel_idMarca}" for="idMarca" />
+                        <p:selectOneMenu id="idMarca" value="#{articulosController.selected.idMarca}" required="true" requiredMessage="#{myBundle.CreateArticulosRequiredMessage_idMarca}" converter="marcasConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{marcasController.items}"
+                                           var="idMarcaItem"
+                                           itemValue="#{idMarcaItem}"
+                                           itemLabel="#{idMarcaItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.CreateArticulosLabel_idProveedor}" for="idProveedor" />
+                        <p:selectOneMenu id="idProveedor" value="#{articulosController.selected.idProveedor}" required="true" requiredMessage="#{myBundle.CreateArticulosRequiredMessage_idProveedor}" converter="proveedoresConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{proveedoresController.items}"
+                                           var="idProveedorItem"
+                                           itemValue="#{idProveedorItem}"
+                                           itemLabel="#{idProveedorItem.id.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{articulosController.saveNew}" value="#{myBundle.Save}" update="display,:ArticulosListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ArticulosCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('ArticulosCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="FacturacionarticulosEditDlg" widgetVar="FacturacionarticulosEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditFacturacionarticulosTitle}" closeOnEscape="true">
+
+            <h:form id="FacturacionarticulosEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{facturacionarticulosController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditFacturacionarticulosLabel_noFactura}" for="noFactura" />
+                        <h:outputText id="noFactura" value="#{facturacionarticulosController.selected.noFactura}" />
+
+                        <p:outputLabel value="#{myBundle.EditFacturacionarticulosLabel_fechaVenta}" for="fechaVenta" />
+                        <p:calendar id="fechaVenta" pattern="MM/dd/yyyy HH:mm:ss" value="#{facturacionarticulosController.selected.fechaVenta}" title="#{myBundle.EditFacturacionarticulosTitle_fechaVenta}" required="true" requiredMessage="#{myBundle.EditFacturacionarticulosRequiredMessage_fechaVenta}" showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.EditFacturacionarticulosLabel_montoArticulo}" for="montoArticulo" />
+                        <p:inputText id="montoArticulo" value="#{facturacionarticulosController.selected.montoArticulo}" title="#{myBundle.EditFacturacionarticulosTitle_montoArticulo}" required="true" requiredMessage="#{myBundle.EditFacturacionarticulosRequiredMessage_montoArticulo}"/>
+
+                        <p:outputLabel value="#{myBundle.EditFacturacionarticulosLabel_unidadesVendidas}" for="unidadesVendidas" />
+                        <p:inputText id="unidadesVendidas" value="#{facturacionarticulosController.selected.unidadesVendidas}" title="#{myBundle.EditFacturacionarticulosTitle_unidadesVendidas}" required="true" requiredMessage="#{myBundle.EditFacturacionarticulosRequiredMessage_unidadesVendidas}"/>
+
+                        <p:outputLabel value="#{myBundle.EditFacturacionarticulosLabel_comentario}" for="comentario" />
+                        <p:inputText id="comentario" value="#{facturacionarticulosController.selected.comentario}" title="#{myBundle.EditFacturacionarticulosTitle_comentario}" size="150" maxlength="150"/>
+
+                        <p:outputLabel value="#{myBundle.EditFacturacionarticulosLabel_estado}" for="estado" />
+                        <p:selectBooleanCheckbox id="estado" value="#{facturacionarticulosController.selected.estado}" />
+
+                        <p:outputLabel value="#{myBundle.EditFacturacionarticulosLabel_idEmpleado}" for="idEmpleado" />
+                        <p:selectOneMenu id="idEmpleado" value="#{facturacionarticulosController.selected.idEmpleado}" required="true" requiredMessage="#{myBundle.EditFacturacionarticulosRequiredMessage_idEmpleado}" converter="empleadoConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{empleadoController.items}"
+                                           var="idEmpleadoItem"
+                                           itemValue="#{idEmpleadoItem}"
+                                           itemLabel="#{idEmpleadoItem.id.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.EditFacturacionarticulosLabel_idArticulo}" for="idArticulo" />
+                        <p:selectOneMenu id="idArticulo" value="#{facturacionarticulosController.selected.idArticulo}" required="true" requiredMessage="#{myBundle.EditFacturacionarticulosRequiredMessage_idArticulo}" converter="articulosConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{articulosController.items}"
+                                           var="idArticuloItem"
+                                           itemValue="#{idArticuloItem}"
+                                           itemLabel="#{idArticuloItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.EditFacturacionarticulosLabel_idUsuario}" for="idUsuario" />
+                        <p:selectOneMenu id="idUsuario" value="#{facturacionarticulosController.selected.idUsuario}" required="true" requiredMessage="#{myBundle.EditFacturacionarticulosRequiredMessage_idUsuario}" converter="usersConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{usersController.items}"
+                                           var="idUsuarioItem"
+                                           itemValue="#{idUsuarioItem}"
+                                           itemLabel="#{idUsuarioItem.id.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{facturacionarticulosController.save}" value="#{myBundle.Save}" update="display,:FacturacionarticulosListForm:datalist,:FacturacionarticulosListForm:FacturacionarticulosDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('FacturacionarticulosEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('FacturacionarticulosEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

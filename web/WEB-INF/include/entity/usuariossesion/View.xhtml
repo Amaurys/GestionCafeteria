@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UsuariossesionViewDlg" widgetVar="UsuariossesionViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewUsuariossesionTitle}" closeOnEscape="true">
+
+            <h:form id="UsuariossesionViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{usuariossesionController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewUsuariossesionLabel_id}"/>
+                        <h:outputText value="#{usuariossesionController.selected.id}" title="#{myBundle.ViewUsuariossesionTitle_id}"/>
+
+                        <h:outputText value="#{myBundle.ViewUsuariossesionLabel_nombre}"/>
+                        <h:outputText value="#{usuariossesionController.selected.nombre}" title="#{myBundle.ViewUsuariossesionTitle_nombre}"/>
+
+                        <h:outputText value="#{myBundle.ViewUsuariossesionLabel_usuario}"/>
+                        <h:outputText value="#{usuariossesionController.selected.usuario}" title="#{myBundle.ViewUsuariossesionTitle_usuario}"/>
+
+                        <h:outputText value="#{myBundle.ViewUsuariossesionLabel_clave}"/>
+                        <h:outputText value="#{usuariossesionController.selected.clave}" title="#{myBundle.ViewUsuariossesionTitle_clave}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('UsuariossesionViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

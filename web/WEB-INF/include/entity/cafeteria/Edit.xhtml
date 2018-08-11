@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="CafeteriaEditDlg" widgetVar="CafeteriaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditCafeteriaTitle}" closeOnEscape="true">
+
+            <h:form id="CafeteriaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{cafeteriaController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditCafeteriaLabel_id}" for="id" />
+                        <h:outputText id="id" value="#{cafeteriaController.selected.id}" />
+
+                        <p:outputLabel value="#{myBundle.EditCafeteriaLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{cafeteriaController.selected.nombre}" title="#{myBundle.EditCafeteriaTitle_nombre}" required="true" requiredMessage="#{myBundle.EditCafeteriaRequiredMessage_nombre}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.EditCafeteriaLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{cafeteriaController.selected.descripcion}" title="#{myBundle.EditCafeteriaTitle_descripcion}" size="150" maxlength="150"/>
+
+                        <p:outputLabel value="#{myBundle.EditCafeteriaLabel_estado}" for="estado" />
+                        <p:selectBooleanCheckbox id="estado" value="#{cafeteriaController.selected.estado}" />
+
+                        <p:outputLabel value="#{myBundle.EditCafeteriaLabel_idCampus}" for="idCampus" />
+                        <p:selectOneMenu id="idCampus" value="#{cafeteriaController.selected.idCampus}" required="true" requiredMessage="#{myBundle.EditCafeteriaRequiredMessage_idCampus}" converter="campusConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{campusController.items}"
+                                           var="idCampusItem"
+                                           itemValue="#{idCampusItem}"
+                                           itemLabel="#{idCampusItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.EditCafeteriaLabel_idEmpleado}" for="idEmpleado" />
+                        <p:selectOneMenu id="idEmpleado" value="#{cafeteriaController.selected.idEmpleado}" required="true" requiredMessage="#{myBundle.EditCafeteriaRequiredMessage_idEmpleado}" converter="empleadoConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{empleadoController.items}"
+                                           var="idEmpleadoItem"
+                                           itemValue="#{idEmpleadoItem}"
+                                           itemLabel="#{idEmpleadoItem.id.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{cafeteriaController.save}" value="#{myBundle.Save}" update="display,:CafeteriaListForm:datalist,:CafeteriaListForm:CafeteriaDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CafeteriaEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('CafeteriaEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

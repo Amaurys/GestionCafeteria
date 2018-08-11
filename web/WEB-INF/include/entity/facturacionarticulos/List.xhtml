@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="FacturacionarticulosListForm">
+
+        <p:panel header="#{myBundle.ListFacturacionarticulosTitle}">
+            <p:contextMenu id="FacturacionarticulosDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('FacturacionarticulosListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('FacturacionarticulosListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('FacturacionarticulosListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('FacturacionarticulosListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.FacturacionarticulosMenuItem_idEmpleado}" icon="ui-icon-search"  actionListener="#{facturacionarticulosController.prepareIdEmpleado}" update=":EmpleadoViewForm" oncomplete="PF('EmpleadoViewDialog').show()" disabled="#{empty facturacionarticulosController.selected.idEmpleado}"/>  
+                <p:menuitem value="#{myBundle.FacturacionarticulosMenuItem_idArticulo}" icon="ui-icon-search"  actionListener="#{facturacionarticulosController.prepareIdArticulo}" update=":ArticulosViewForm" oncomplete="PF('ArticulosViewDialog').show()" disabled="#{empty facturacionarticulosController.selected.idArticulo}"/>  
+                <p:menuitem value="#{myBundle.FacturacionarticulosMenuItem_idUsuario}" icon="ui-icon-search"  actionListener="#{facturacionarticulosController.prepareIdUsuario}" update=":UsersViewForm" oncomplete="PF('UsersViewDialog').show()" disabled="#{empty facturacionarticulosController.selected.idUsuario}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{facturacionarticulosController.items}"
+                         lazy="false"
+                         rowKey="#{item.noFactura}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{facturacionarticulosController.selected}"
+                         filteredValue="#{facturacionarticulosController.filteredItems}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{facturacionarticulosController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.noFactura}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:FacturacionarticulosDataTableContextMenu" listener="#{facturacionarticulosController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:FacturacionarticulosDataTableContextMenu" listener="#{facturacionarticulosController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{facturacionarticulosController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('FacturacionarticulosListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.noFactura}" filterBy="#{item.noFactura}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListFacturacionarticulosTitle_noFactura}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.noFactura}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fechaVenta}" filterBy="#{item.fechaVenta}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListFacturacionarticulosTitle_fechaVenta}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaVenta}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.montoArticulo}" filterBy="#{item.montoArticulo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListFacturacionarticulosTitle_montoArticulo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.montoArticulo}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.unidadesVendidas}" filterBy="#{item.unidadesVendidas}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListFacturacionarticulosTitle_unidadesVendidas}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.unidadesVendidas}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.comentario}" filterBy="#{item.comentario}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListFacturacionarticulosTitle_comentario}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.comentario}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.estado}" filterBy="#{item.estado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListFacturacionarticulosTitle_estado}"/>
+                    </f:facet>
+                    <h:selectBooleanCheckbox id="estado" value="#{item.estado}" title="#{myBundle.EditFacturacionarticulosTitle_estado}"  disabled="true"/>
+                </p:column>
+
+                <ui:remove>
+                    <p:column sortBy="#{item.idEmpleado.id}" filterBy="#{item.idEmpleado.id}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListFacturacionarticulosTitle_idEmpleado}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idEmpleado.id}"/>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.idArticulo.descripcion}" filterBy="#{item.idArticulo.descripcion}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListFacturacionarticulosTitle_idArticulo}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idArticulo.descripcion}"/>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.idUsuario.id}" filterBy="#{item.idUsuario.id}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListFacturacionarticulosTitle_idUsuario}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idUsuario.id}"/>
+                    </p:column>
+                </ui:remove>
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{facturacionarticulosController.prepareCreate}" update=":FacturacionarticulosCreateForm" oncomplete="PF('FacturacionarticulosCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":FacturacionarticulosViewForm" oncomplete="PF('FacturacionarticulosViewDialog').show()" disabled="#{empty facturacionarticulosController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":FacturacionarticulosEditForm" oncomplete="PF('FacturacionarticulosEditDialog').show()" disabled="#{empty facturacionarticulosController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{facturacionarticulosController.delete}" update=":growl,datalist" disabled="#{empty facturacionarticulosController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

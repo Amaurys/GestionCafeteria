@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TiposdeusuarioCreateDlg" widgetVar="TiposdeusuarioCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateTiposdeusuarioTitle}" closeOnEscape="true">
+
+            <h:form id="TiposdeusuarioCreateForm">
+
+                <h:panelGroup id="display" rendered="#{tiposdeusuarioController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateTiposdeusuarioLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{tiposdeusuarioController.selected.nombre}" title="#{myBundle.CreateTiposdeusuarioTitle_nombre}" required="true" requiredMessage="#{myBundle.CreateTiposdeusuarioRequiredMessage_nombre}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.CreateTiposdeusuarioLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{tiposdeusuarioController.selected.descripcion}" title="#{myBundle.CreateTiposdeusuarioTitle_descripcion}" size="150" maxlength="150"/>
+
+                        <p:outputLabel value="#{myBundle.CreateTiposdeusuarioLabel_estado}" for="estado" />
+                        <p:selectBooleanCheckbox id="estado" value="#{tiposdeusuarioController.selected.estado}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tiposdeusuarioController.saveNew}" value="#{myBundle.Save}" update="display,:TiposdeusuarioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TiposdeusuarioCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('TiposdeusuarioCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

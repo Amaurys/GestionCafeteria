@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="FacturacionarticulosViewPage" lazy="true">
+        <pm:header title="#{myBundle.ViewFacturacionarticulosTitle}">
+            <h:form>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{myBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:FacturacionarticulosListPage')}"/>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="FacturacionarticulosViewForm">
+
+                <h:panelGroup id="display">
+                    <p:outputPanel rendered="#{facturacionarticulosController.selected != null}">
+
+                        <pm:field>
+                            <h:outputText value="#{myBundle.ViewFacturacionarticulosLabel_noFactura}"/>
+                            <h:outputText value="#{facturacionarticulosController.selected.noFactura}" title="#{myBundle.ViewFacturacionarticulosTitle_noFactura}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{myBundle.ViewFacturacionarticulosLabel_fechaVenta}"/>
+                            <h:outputText value="#{facturacionarticulosController.selected.fechaVenta}" title="#{myBundle.ViewFacturacionarticulosTitle_fechaVenta}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{myBundle.ViewFacturacionarticulosLabel_montoArticulo}"/>
+                            <h:outputText value="#{facturacionarticulosController.selected.montoArticulo}" title="#{myBundle.ViewFacturacionarticulosTitle_montoArticulo}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{myBundle.ViewFacturacionarticulosLabel_unidadesVendidas}"/>
+                            <h:outputText value="#{facturacionarticulosController.selected.unidadesVendidas}" title="#{myBundle.ViewFacturacionarticulosTitle_unidadesVendidas}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{myBundle.ViewFacturacionarticulosLabel_comentario}"/>
+                            <h:outputText value="#{facturacionarticulosController.selected.comentario}" title="#{myBundle.ViewFacturacionarticulosTitle_comentario}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{myBundle.ViewFacturacionarticulosLabel_estado}"/>
+                            <h:selectBooleanCheckbox id="estado" value="#{facturacionarticulosController.selected.estado}" title="#{myBundle.EditFacturacionarticulosTitle_estado}"  disabled="true"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{myBundle.ViewFacturacionarticulosLabel_idEmpleado}"/>
+                            <h:outputText value="#{facturacionarticulosController.selected.idEmpleado.id}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{myBundle.ViewFacturacionarticulosLabel_idArticulo}"/>
+                            <h:outputText value="#{facturacionarticulosController.selected.idArticulo.descripcion}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{myBundle.ViewFacturacionarticulosLabel_idUsuario}"/>
+                            <h:outputText value="#{facturacionarticulosController.selected.idUsuario.id}"/>
+                        </pm:field>
+                    </p:outputPanel>
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

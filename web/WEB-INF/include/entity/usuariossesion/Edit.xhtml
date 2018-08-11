@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="UsuariossesionEditDlg" widgetVar="UsuariossesionEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditUsuariossesionTitle}" closeOnEscape="true">
+
+            <h:form id="UsuariossesionEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{usuariossesionController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditUsuariossesionLabel_id}" for="id" />
+                        <h:outputText id="id" value="#{usuariossesionController.selected.id}" />
+
+                        <p:outputLabel value="#{myBundle.EditUsuariossesionLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{usuariossesionController.selected.nombre}" title="#{myBundle.EditUsuariossesionTitle_nombre}" required="true" requiredMessage="#{myBundle.EditUsuariossesionRequiredMessage_nombre}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.EditUsuariossesionLabel_usuario}" for="usuario" />
+                        <p:inputText id="usuario" value="#{usuariossesionController.selected.usuario}" title="#{myBundle.EditUsuariossesionTitle_usuario}" required="true" requiredMessage="#{myBundle.EditUsuariossesionRequiredMessage_usuario}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.EditUsuariossesionLabel_clave}" for="clave" />
+                        <p:inputText id="clave" value="#{usuariossesionController.selected.clave}" title="#{myBundle.EditUsuariossesionTitle_clave}" required="true" requiredMessage="#{myBundle.EditUsuariossesionRequiredMessage_clave}" size="30" maxlength="30"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{usuariossesionController.save}" value="#{myBundle.Save}" update="display,:UsuariossesionListForm:datalist,:UsuariossesionListForm:UsuariossesionDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('UsuariossesionEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('UsuariossesionEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="FacturacionarticulosViewDlg" widgetVar="FacturacionarticulosViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewFacturacionarticulosTitle}" closeOnEscape="true">
+
+            <h:form id="FacturacionarticulosViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{facturacionarticulosController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewFacturacionarticulosLabel_noFactura}"/>
+                        <h:outputText value="#{facturacionarticulosController.selected.noFactura}" title="#{myBundle.ViewFacturacionarticulosTitle_noFactura}"/>
+
+                        <h:outputText value="#{myBundle.ViewFacturacionarticulosLabel_fechaVenta}"/>
+                        <h:outputText value="#{facturacionarticulosController.selected.fechaVenta}" title="#{myBundle.ViewFacturacionarticulosTitle_fechaVenta}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewFacturacionarticulosLabel_montoArticulo}"/>
+                        <h:outputText value="#{facturacionarticulosController.selected.montoArticulo}" title="#{myBundle.ViewFacturacionarticulosTitle_montoArticulo}"/>
+
+                        <h:outputText value="#{myBundle.ViewFacturacionarticulosLabel_unidadesVendidas}"/>
+                        <h:outputText value="#{facturacionarticulosController.selected.unidadesVendidas}" title="#{myBundle.ViewFacturacionarticulosTitle_unidadesVendidas}"/>
+
+                        <h:outputText value="#{myBundle.ViewFacturacionarticulosLabel_comentario}"/>
+                        <h:outputText value="#{facturacionarticulosController.selected.comentario}" title="#{myBundle.ViewFacturacionarticulosTitle_comentario}"/>
+
+                        <h:outputText value="#{myBundle.ViewFacturacionarticulosLabel_estado}"/>
+                        <p:selectBooleanCheckbox id="estado" value="#{facturacionarticulosController.selected.estado}" title="#{myBundle.EditFacturacionarticulosTitle_estado}" />
+
+                        <h:outputText value="#{myBundle.ViewFacturacionarticulosLabel_idEmpleado}"/>
+                        <h:outputText value="#{facturacionarticulosController.selected.idEmpleado.id}"/>
+
+                        <h:outputText value="#{myBundle.ViewFacturacionarticulosLabel_idArticulo}"/>
+                        <h:outputText value="#{facturacionarticulosController.selected.idArticulo.descripcion}"/>
+
+                        <h:outputText value="#{myBundle.ViewFacturacionarticulosLabel_idUsuario}"/>
+                        <h:outputText value="#{facturacionarticulosController.selected.idUsuario.id}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('FacturacionarticulosViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="VentasEditPage" lazy="true">
+        <pm:header title="#{myBundle.EditVentasTitle}">
+            <h:form>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{myBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:VentasListPage')}"/>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="VentasEditForm">
+
+                <h:panelGroup id="display">
+                    <p:outputPanel rendered="#{ventasController.selected != null}">
+
+                        <pm:field>
+                            <h:outputLabel value="#{myBundle.EditVentasLabel_noFactura}" for="noFactura" />
+                            <h:outputText id="noFactura" value="#{ventasController.selected.noFactura}" />
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditVentasLabel_fechaVenta}" for="fechaVenta" />
+                            <p:calendar id="fechaVenta" pattern="MM/dd/yyyy HH:mm:ss" value="#{ventasController.selected.fechaVenta}" title="#{myBundle.EditVentasTitle_fechaVenta}" required="true" requiredMessage="#{myBundle.EditVentasRequiredMessage_fechaVenta}" showOn="button"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditVentasLabel_montoArticulo}" for="montoArticulo" />
+                            <p:inputText id="montoArticulo" value="#{ventasController.selected.montoArticulo}" title="#{myBundle.EditVentasTitle_montoArticulo}" required="true" requiredMessage="#{myBundle.EditVentasRequiredMessage_montoArticulo}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditVentasLabel_unidadesVendidas}" for="unidadesVendidas" />
+                            <p:inputText id="unidadesVendidas" value="#{ventasController.selected.unidadesVendidas}" title="#{myBundle.EditVentasTitle_unidadesVendidas}" required="true" requiredMessage="#{myBundle.EditVentasRequiredMessage_unidadesVendidas}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditVentasLabel_comentario}" for="comentario" />
+                            <p:inputText id="comentario" value="#{ventasController.selected.comentario}" title="#{myBundle.EditVentasTitle_comentario}" size="150" maxlength="150"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditVentasLabel_estado}" for="estado" />
+                            <p:selectBooleanCheckbox id="estado" value="#{ventasController.selected.estado}" />
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditVentasLabel_idEmpleado}" for="idEmpleado" />
+                            <p:selectOneMenu id="idEmpleado" value="#{ventasController.selected.idEmpleado}" required="true" requiredMessage="#{myBundle.EditVentasRequiredMessage_idEmpleado}" converter="empleadoConverter">
+                                <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{empleadoController.items}"
+                                               var="idEmpleadoItem"
+                                               itemValue="#{idEmpleadoItem}"
+                                               itemLabel="#{idEmpleadoItem.id.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditVentasLabel_idArticulo}" for="idArticulo" />
+                            <p:selectOneMenu id="idArticulo" value="#{ventasController.selected.idArticulo}" required="true" requiredMessage="#{myBundle.EditVentasRequiredMessage_idArticulo}" converter="articulosConverter">
+                                <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{articulosController.items}"
+                                               var="idArticuloItem"
+                                               itemValue="#{idArticuloItem}"
+                                               itemLabel="#{idArticuloItem.descripcion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditVentasLabel_idUsuario}" for="idUsuario" />
+                            <p:selectOneMenu id="idUsuario" value="#{ventasController.selected.idUsuario}" required="true" requiredMessage="#{myBundle.EditVentasRequiredMessage_idUsuario}" converter="usersConverter">
+                                <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{usersController.items}"
+                                               var="idUsuarioItem"
+                                               itemValue="#{idUsuarioItem}"
+                                               itemLabel="#{idUsuarioItem.id.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                        </pm:field>
+                    </p:outputPanel>
+                    <p:commandButton actionListener="#{ventasController.save}" value="#{myBundle.Save}" update="#{mobilePageController.updatableWidgets(component,'display,:VentasListPage:VentasListForm:datalist,:growl')}" action="#{mobilePageController.navigateWithHistory('pm:VentasListPage')}"/>
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

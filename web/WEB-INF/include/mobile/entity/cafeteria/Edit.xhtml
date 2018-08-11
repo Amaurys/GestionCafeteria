@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="CafeteriaEditPage" lazy="true">
+        <pm:header title="#{myBundle.EditCafeteriaTitle}">
+            <h:form>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{myBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:CafeteriaListPage')}"/>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="CafeteriaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:outputPanel rendered="#{cafeteriaController.selected != null}">
+
+                        <pm:field>
+                            <h:outputLabel value="#{myBundle.EditCafeteriaLabel_id}" for="id" />
+                            <h:outputText id="id" value="#{cafeteriaController.selected.id}" />
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditCafeteriaLabel_nombre}" for="nombre" />
+                            <p:inputText id="nombre" value="#{cafeteriaController.selected.nombre}" title="#{myBundle.EditCafeteriaTitle_nombre}" required="true" requiredMessage="#{myBundle.EditCafeteriaRequiredMessage_nombre}" size="50" maxlength="50"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditCafeteriaLabel_descripcion}" for="descripcion" />
+                            <p:inputText id="descripcion" value="#{cafeteriaController.selected.descripcion}" title="#{myBundle.EditCafeteriaTitle_descripcion}" size="150" maxlength="150"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditCafeteriaLabel_estado}" for="estado" />
+                            <p:selectBooleanCheckbox id="estado" value="#{cafeteriaController.selected.estado}" />
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditCafeteriaLabel_idCampus}" for="idCampus" />
+                            <p:selectOneMenu id="idCampus" value="#{cafeteriaController.selected.idCampus}" required="true" requiredMessage="#{myBundle.EditCafeteriaRequiredMessage_idCampus}" converter="campusConverter">
+                                <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{campusController.items}"
+                                               var="idCampusItem"
+                                               itemValue="#{idCampusItem}"
+                                               itemLabel="#{idCampusItem.descripcion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditCafeteriaLabel_idEmpleado}" for="idEmpleado" />
+                            <p:selectOneMenu id="idEmpleado" value="#{cafeteriaController.selected.idEmpleado}" required="true" requiredMessage="#{myBundle.EditCafeteriaRequiredMessage_idEmpleado}" converter="empleadoConverter">
+                                <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{empleadoController.items}"
+                                               var="idEmpleadoItem"
+                                               itemValue="#{idEmpleadoItem}"
+                                               itemLabel="#{idEmpleadoItem.id.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                        </pm:field>
+                    </p:outputPanel>
+                    <p:commandButton actionListener="#{cafeteriaController.save}" value="#{myBundle.Save}" update="#{mobilePageController.updatableWidgets(component,'display,:CafeteriaListPage:CafeteriaListForm:datalist,:growl')}" action="#{mobilePageController.navigateWithHistory('pm:CafeteriaListPage')}"/>
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

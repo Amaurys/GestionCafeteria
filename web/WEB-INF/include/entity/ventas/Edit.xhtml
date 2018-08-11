@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="VentasEditDlg" widgetVar="VentasEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditVentasTitle}" closeOnEscape="true">
+
+            <h:form id="VentasEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{ventasController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditVentasLabel_noFactura}" for="noFactura" />
+                        <h:outputText id="noFactura" value="#{ventasController.selected.noFactura}" />
+
+                        <p:outputLabel value="#{myBundle.EditVentasLabel_fechaVenta}" for="fechaVenta" />
+                        <p:calendar id="fechaVenta" pattern="MM/dd/yyyy HH:mm:ss" value="#{ventasController.selected.fechaVenta}" title="#{myBundle.EditVentasTitle_fechaVenta}" required="true" requiredMessage="#{myBundle.EditVentasRequiredMessage_fechaVenta}" showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.EditVentasLabel_montoArticulo}" for="montoArticulo" />
+                        <p:inputText id="montoArticulo" value="#{ventasController.selected.montoArticulo}" title="#{myBundle.EditVentasTitle_montoArticulo}" required="true" requiredMessage="#{myBundle.EditVentasRequiredMessage_montoArticulo}"/>
+
+                        <p:outputLabel value="#{myBundle.EditVentasLabel_unidadesVendidas}" for="unidadesVendidas" />
+                        <p:inputText id="unidadesVendidas" value="#{ventasController.selected.unidadesVendidas}" title="#{myBundle.EditVentasTitle_unidadesVendidas}" required="true" requiredMessage="#{myBundle.EditVentasRequiredMessage_unidadesVendidas}"/>
+
+                        <p:outputLabel value="#{myBundle.EditVentasLabel_comentario}" for="comentario" />
+                        <p:inputText id="comentario" value="#{ventasController.selected.comentario}" title="#{myBundle.EditVentasTitle_comentario}" size="150" maxlength="150"/>
+
+                        <p:outputLabel value="#{myBundle.EditVentasLabel_estado}" for="estado" />
+                        <p:selectBooleanCheckbox id="estado" value="#{ventasController.selected.estado}" />
+
+                        <p:outputLabel value="#{myBundle.EditVentasLabel_idEmpleado}" for="idEmpleado" />
+                        <p:selectOneMenu id="idEmpleado" value="#{ventasController.selected.idEmpleado}" required="true" requiredMessage="#{myBundle.EditVentasRequiredMessage_idEmpleado}" converter="empleadoConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{empleadoController.items}"
+                                           var="idEmpleadoItem"
+                                           itemValue="#{idEmpleadoItem}"
+                                           itemLabel="#{idEmpleadoItem.id.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.EditVentasLabel_idArticulo}" for="idArticulo" />
+                        <p:selectOneMenu id="idArticulo" value="#{ventasController.selected.idArticulo}" required="true" requiredMessage="#{myBundle.EditVentasRequiredMessage_idArticulo}" converter="articulosConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{articulosController.items}"
+                                           var="idArticuloItem"
+                                           itemValue="#{idArticuloItem}"
+                                           itemLabel="#{idArticuloItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.EditVentasLabel_idUsuario}" for="idUsuario" />
+                        <p:selectOneMenu id="idUsuario" value="#{ventasController.selected.idUsuario}" required="true" requiredMessage="#{myBundle.EditVentasRequiredMessage_idUsuario}" converter="usersConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{usersController.items}"
+                                           var="idUsuarioItem"
+                                           itemValue="#{idUsuarioItem}"
+                                           itemLabel="#{idUsuarioItem.id.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{ventasController.save}" value="#{myBundle.Save}" update="display,:VentasListForm:datalist,:VentasListForm:VentasDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('VentasEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('VentasEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

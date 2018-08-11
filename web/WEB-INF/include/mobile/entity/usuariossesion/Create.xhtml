@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="UsuariossesionCreatePage" lazy="true">
+        <pm:header title="#{myBundle.CreateUsuariossesionTitle}">
+            <h:form>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{myBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:UsuariossesionListPage')}"/>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="UsuariossesionCreateForm">
+
+                <h:panelGroup id="display" rendered="#{usuariossesionController.selected != null}">
+                    <p:outputPanel>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateUsuariossesionLabel_nombre}" for="nombre" />
+                            <p:inputText id="nombre" value="#{usuariossesionController.selected.nombre}" title="#{myBundle.CreateUsuariossesionTitle_nombre}" required="true" requiredMessage="#{myBundle.CreateUsuariossesionRequiredMessage_nombre}" size="50" maxlength="50"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateUsuariossesionLabel_usuario}" for="usuario" />
+                            <p:inputText id="usuario" value="#{usuariossesionController.selected.usuario}" title="#{myBundle.CreateUsuariossesionTitle_usuario}" required="true" requiredMessage="#{myBundle.CreateUsuariossesionRequiredMessage_usuario}" size="50" maxlength="50"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateUsuariossesionLabel_clave}" for="clave" />
+                            <p:inputText id="clave" value="#{usuariossesionController.selected.clave}" title="#{myBundle.CreateUsuariossesionTitle_clave}" required="true" requiredMessage="#{myBundle.CreateUsuariossesionRequiredMessage_clave}" size="30" maxlength="30"/>
+                        </pm:field>
+                    </p:outputPanel>
+                    <p:commandButton actionListener="#{usuariossesionController.saveNew}" value="#{myBundle.Save}" update="display,:UsuariossesionListPage:UsuariossesionListForm:datalist,:growl" action="#{mobilePageController.navigateWithHistory('pm:UsuariossesionListPage')}"/>
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

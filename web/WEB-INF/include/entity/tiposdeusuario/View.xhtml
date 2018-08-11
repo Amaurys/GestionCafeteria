@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TiposdeusuarioViewDlg" widgetVar="TiposdeusuarioViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewTiposdeusuarioTitle}" closeOnEscape="true">
+
+            <h:form id="TiposdeusuarioViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{tiposdeusuarioController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewTiposdeusuarioLabel_id}"/>
+                        <h:outputText value="#{tiposdeusuarioController.selected.id}" title="#{myBundle.ViewTiposdeusuarioTitle_id}"/>
+
+                        <h:outputText value="#{myBundle.ViewTiposdeusuarioLabel_nombre}"/>
+                        <h:outputText value="#{tiposdeusuarioController.selected.nombre}" title="#{myBundle.ViewTiposdeusuarioTitle_nombre}"/>
+
+                        <h:outputText value="#{myBundle.ViewTiposdeusuarioLabel_descripcion}"/>
+                        <h:outputText value="#{tiposdeusuarioController.selected.descripcion}" title="#{myBundle.ViewTiposdeusuarioTitle_descripcion}"/>
+
+                        <h:outputText value="#{myBundle.ViewTiposdeusuarioLabel_estado}"/>
+                        <p:selectBooleanCheckbox id="estado" value="#{tiposdeusuarioController.selected.estado}" title="#{myBundle.EditTiposdeusuarioTitle_estado}" />
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('TiposdeusuarioViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

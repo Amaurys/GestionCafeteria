@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="EmpleadoCreatePage" lazy="true">
+        <pm:header title="#{myBundle.CreateEmpleadoTitle}">
+            <h:form>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{myBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:EmpleadoListPage')}"/>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="EmpleadoCreateForm">
+
+                <h:panelGroup id="display" rendered="#{empleadoController.selected != null}">
+                    <p:outputPanel>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateEmpleadoLabel_nombre}" for="nombre" />
+                            <p:inputText id="nombre" value="#{empleadoController.selected.nombre}" title="#{myBundle.CreateEmpleadoTitle_nombre}" required="true" requiredMessage="#{myBundle.CreateEmpleadoRequiredMessage_nombre}" size="50" maxlength="50"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateEmpleadoLabel_cedula}" for="cedula" />
+                            <p:inputText id="cedula" value="#{empleadoController.selected.cedula}" title="#{myBundle.CreateEmpleadoTitle_cedula}" required="true" requiredMessage="#{myBundle.CreateEmpleadoRequiredMessage_cedula}" size="13" maxlength="13"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateEmpleadoLabel_porcientoComision}" for="porcientoComision" />
+                            <p:inputText id="porcientoComision" value="#{empleadoController.selected.porcientoComision}" title="#{myBundle.CreateEmpleadoTitle_porcientoComision}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateEmpleadoLabel_fechaIngreso}" for="fechaIngreso" />
+                            <p:calendar id="fechaIngreso" pattern="MM/dd/yyyy" value="#{empleadoController.selected.fechaIngreso}" title="#{myBundle.CreateEmpleadoTitle_fechaIngreso}"  showOn="button"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateEmpleadoLabel_estado}" for="estado" />
+                            <p:selectBooleanCheckbox id="estado" value="#{empleadoController.selected.estado}" />
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateEmpleadoLabel_idTandaLaboral}" for="idTandaLaboral" />
+                            <p:selectOneMenu id="idTandaLaboral" value="#{empleadoController.selected.idTandaLaboral}" required="true" requiredMessage="#{myBundle.CreateEmpleadoRequiredMessage_idTandaLaboral}" converter="tandalaboralConverter">
+                                <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{tandalaboralController.items}"
+                                               var="idTandaLaboralItem"
+                                               itemValue="#{idTandaLaboralItem}"
+                                               itemLabel="#{idTandaLaboralItem.id.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                        </pm:field>
+                    </p:outputPanel>
+                    <p:commandButton actionListener="#{empleadoController.saveNew}" value="#{myBundle.Save}" update="display,:EmpleadoListPage:EmpleadoListForm:datalist,:growl" action="#{mobilePageController.navigateWithHistory('pm:EmpleadoListPage')}"/>
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

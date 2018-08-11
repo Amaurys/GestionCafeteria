@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UsersViewDlg" widgetVar="UsersViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewUsersTitle}" closeOnEscape="true">
+
+            <h:form id="UsersViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{usersController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewUsersLabel_id}"/>
+                        <h:outputText value="#{usersController.selected.id}" title="#{myBundle.ViewUsersTitle_id}"/>
+
+                        <h:outputText value="#{myBundle.ViewUsersLabel_nombre}"/>
+                        <h:outputText value="#{usersController.selected.nombre}" title="#{myBundle.ViewUsersTitle_nombre}"/>
+
+                        <h:outputText value="#{myBundle.ViewUsersLabel_cedula}"/>
+                        <h:outputText value="#{usersController.selected.cedula}" title="#{myBundle.ViewUsersTitle_cedula}"/>
+
+                        <h:outputText value="#{myBundle.ViewUsersLabel_limiteDeCredito}"/>
+                        <h:outputText value="#{usersController.selected.limiteDeCredito}" title="#{myBundle.ViewUsersTitle_limiteDeCredito}"/>
+
+                        <h:outputText value="#{myBundle.ViewUsersLabel_fechaRegistro}"/>
+                        <h:outputText value="#{usersController.selected.fechaRegistro}" title="#{myBundle.ViewUsersTitle_fechaRegistro}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewUsersLabel_estado}"/>
+                        <p:selectBooleanCheckbox id="estado" value="#{usersController.selected.estado}" title="#{myBundle.EditUsersTitle_estado}" />
+
+                        <h:outputText value="#{myBundle.ViewUsersLabel_idTipoDeUsuario}"/>
+                        <h:outputText value="#{usersController.selected.idTipoDeUsuario.descripcion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('UsersViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

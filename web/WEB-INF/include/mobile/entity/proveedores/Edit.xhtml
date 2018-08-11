@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="ProveedoresEditPage" lazy="true">
+        <pm:header title="#{myBundle.EditProveedoresTitle}">
+            <h:form>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{myBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:ProveedoresListPage')}"/>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="ProveedoresEditForm">
+
+                <h:panelGroup id="display">
+                    <p:outputPanel rendered="#{proveedoresController.selected != null}">
+
+                        <pm:field>
+                            <h:outputLabel value="#{myBundle.EditProveedoresLabel_id}" for="id" />
+                            <h:outputText id="id" value="#{proveedoresController.selected.id}" />
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditProveedoresLabel_nombreComercial}" for="nombreComercial" />
+                            <p:inputText id="nombreComercial" value="#{proveedoresController.selected.nombreComercial}" title="#{myBundle.EditProveedoresTitle_nombreComercial}" required="true" requiredMessage="#{myBundle.EditProveedoresRequiredMessage_nombreComercial}" size="50" maxlength="50"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditProveedoresLabel_rnc}" for="rnc" />
+                            <p:inputText id="rnc" value="#{proveedoresController.selected.rnc}" title="#{myBundle.EditProveedoresTitle_rnc}" size="9" maxlength="9"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditProveedoresLabel_fechaRegistro}" for="fechaRegistro" />
+                            <p:calendar id="fechaRegistro" pattern="MM/dd/yyyy" value="#{proveedoresController.selected.fechaRegistro}" title="#{myBundle.EditProveedoresTitle_fechaRegistro}"  showOn="button"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditProveedoresLabel_estado}" for="estado" />
+                            <p:selectBooleanCheckbox id="estado" value="#{proveedoresController.selected.estado}" />
+                        </pm:field>
+                    </p:outputPanel>
+                    <p:commandButton actionListener="#{proveedoresController.save}" value="#{myBundle.Save}" update="#{mobilePageController.updatableWidgets(component,'display,:ProveedoresListPage:ProveedoresListForm:datalist,:growl')}" action="#{mobilePageController.navigateWithHistory('pm:ProveedoresListPage')}"/>
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

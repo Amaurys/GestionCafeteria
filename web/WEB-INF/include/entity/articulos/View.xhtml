@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ArticulosViewDlg" widgetVar="ArticulosViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewArticulosTitle}" closeOnEscape="true">
+
+            <h:form id="ArticulosViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{articulosController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewArticulosLabel_id}"/>
+                        <h:outputText value="#{articulosController.selected.id}" title="#{myBundle.ViewArticulosTitle_id}"/>
+
+                        <h:outputText value="#{myBundle.ViewArticulosLabel_nombre}"/>
+                        <h:outputText value="#{articulosController.selected.nombre}" title="#{myBundle.ViewArticulosTitle_nombre}"/>
+
+                        <h:outputText value="#{myBundle.ViewArticulosLabel_descripcion}"/>
+                        <h:outputText value="#{articulosController.selected.descripcion}" title="#{myBundle.ViewArticulosTitle_descripcion}"/>
+
+                        <h:outputText value="#{myBundle.ViewArticulosLabel_costo}"/>
+                        <h:outputText value="#{articulosController.selected.costo}" title="#{myBundle.ViewArticulosTitle_costo}"/>
+
+                        <h:outputText value="#{myBundle.ViewArticulosLabel_existencia}"/>
+                        <h:outputText value="#{articulosController.selected.existencia}" title="#{myBundle.ViewArticulosTitle_existencia}"/>
+
+                        <h:outputText value="#{myBundle.ViewArticulosLabel_estado}"/>
+                        <p:selectBooleanCheckbox id="estado" value="#{articulosController.selected.estado}" title="#{myBundle.EditArticulosTitle_estado}" />
+
+                        <h:outputText value="#{myBundle.ViewArticulosLabel_idMarca}"/>
+                        <h:outputText value="#{articulosController.selected.idMarca.descripcion}"/>
+
+                        <h:outputText value="#{myBundle.ViewArticulosLabel_idProveedor}"/>
+                        <h:outputText value="#{articulosController.selected.idProveedor.id}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('ArticulosViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

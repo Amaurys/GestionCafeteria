@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="UsersEditDlg" widgetVar="UsersEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditUsersTitle}" closeOnEscape="true">
+
+            <h:form id="UsersEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{usersController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditUsersLabel_id}" for="id" />
+                        <h:outputText id="id" value="#{usersController.selected.id}" />
+
+                        <p:outputLabel value="#{myBundle.EditUsersLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{usersController.selected.nombre}" title="#{myBundle.EditUsersTitle_nombre}" required="true" requiredMessage="#{myBundle.EditUsersRequiredMessage_nombre}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.EditUsersLabel_cedula}" for="cedula" />
+                        <p:inputText id="cedula" value="#{usersController.selected.cedula}" title="#{myBundle.EditUsersTitle_cedula}" required="true" requiredMessage="#{myBundle.EditUsersRequiredMessage_cedula}" size="13" maxlength="13"/>
+
+                        <p:outputLabel value="#{myBundle.EditUsersLabel_limiteDeCredito}" for="limiteDeCredito" />
+                        <p:inputText id="limiteDeCredito" value="#{usersController.selected.limiteDeCredito}" title="#{myBundle.EditUsersTitle_limiteDeCredito}"/>
+
+                        <p:outputLabel value="#{myBundle.EditUsersLabel_fechaRegistro}" for="fechaRegistro" />
+                        <p:calendar id="fechaRegistro" pattern="MM/dd/yyyy" value="#{usersController.selected.fechaRegistro}" title="#{myBundle.EditUsersTitle_fechaRegistro}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.EditUsersLabel_estado}" for="estado" />
+                        <p:selectBooleanCheckbox id="estado" value="#{usersController.selected.estado}" />
+
+                        <p:outputLabel value="#{myBundle.EditUsersLabel_idTipoDeUsuario}" for="idTipoDeUsuario" />
+                        <p:selectOneMenu id="idTipoDeUsuario" value="#{usersController.selected.idTipoDeUsuario}" required="true" requiredMessage="#{myBundle.EditUsersRequiredMessage_idTipoDeUsuario}" converter="tiposdeusuarioConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tiposdeusuarioController.items}"
+                                           var="idTipoDeUsuarioItem"
+                                           itemValue="#{idTipoDeUsuarioItem}"
+                                           itemLabel="#{idTipoDeUsuarioItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{usersController.save}" value="#{myBundle.Save}" update="display,:UsersListForm:datalist,:UsersListForm:UsersDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('UsersEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('UsersEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

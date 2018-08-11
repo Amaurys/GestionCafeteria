@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ProveedoresCreateDlg" widgetVar="ProveedoresCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateProveedoresTitle}" closeOnEscape="true">
+
+            <h:form id="ProveedoresCreateForm">
+
+                <h:panelGroup id="display" rendered="#{proveedoresController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateProveedoresLabel_nombreComercial}" for="nombreComercial" />
+                        <p:inputText id="nombreComercial" value="#{proveedoresController.selected.nombreComercial}" title="#{myBundle.CreateProveedoresTitle_nombreComercial}" required="true" requiredMessage="#{myBundle.CreateProveedoresRequiredMessage_nombreComercial}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProveedoresLabel_rnc}" for="rnc" />
+                        <p:inputText id="rnc" value="#{proveedoresController.selected.rnc}" title="#{myBundle.CreateProveedoresTitle_rnc}" size="9" maxlength="9"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProveedoresLabel_fechaRegistro}" for="fechaRegistro" />
+                        <p:calendar id="fechaRegistro" pattern="MM/dd/yyyy" value="#{proveedoresController.selected.fechaRegistro}" title="#{myBundle.CreateProveedoresTitle_fechaRegistro}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProveedoresLabel_estado}" for="estado" />
+                        <p:selectBooleanCheckbox id="estado" value="#{proveedoresController.selected.estado}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{proveedoresController.saveNew}" value="#{myBundle.Save}" update="display,:ProveedoresListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ProveedoresCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('ProveedoresCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ArticulosListForm">
+
+        <p:panel header="#{myBundle.ListArticulosTitle}">
+            <p:contextMenu id="ArticulosDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('ArticulosListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('ArticulosListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('ArticulosListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('ArticulosListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.ArticulosMenuItem_ventasCollection}" icon="ui-icon-search"  action="#{articulosController.navigateVentasCollection}" disabled="#{articulosController.isVentasCollectionEmpty}" ajax="false"/>  
+                <p:menuitem value="#{myBundle.ArticulosMenuItem_facturacionarticulosCollection}" icon="ui-icon-search"  action="#{articulosController.navigateFacturacionarticulosCollection}" disabled="#{articulosController.isFacturacionarticulosCollectionEmpty}" ajax="false"/>  
+                <p:menuitem value="#{myBundle.ArticulosMenuItem_idMarca}" icon="ui-icon-search"  actionListener="#{articulosController.prepareIdMarca}" update=":MarcasViewForm" oncomplete="PF('MarcasViewDialog').show()" disabled="#{empty articulosController.selected.idMarca}"/>  
+                <p:menuitem value="#{myBundle.ArticulosMenuItem_idProveedor}" icon="ui-icon-search"  actionListener="#{articulosController.prepareIdProveedor}" update=":ProveedoresViewForm" oncomplete="PF('ProveedoresViewDialog').show()" disabled="#{empty articulosController.selected.idProveedor}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{articulosController.items}"
+                         lazy="false"
+                         rowKey="#{item.id}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{articulosController.selected}"
+                         filteredValue="#{articulosController.filteredItems}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{articulosController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.id}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ArticulosDataTableContextMenu" listener="#{articulosController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ArticulosDataTableContextMenu" listener="#{articulosController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{articulosController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('ArticulosListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.id}" filterBy="#{item.id}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListArticulosTitle_id}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.id}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nombre}" filterBy="#{item.nombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListArticulosTitle_nombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombre}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.descripcion}" filterBy="#{item.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListArticulosTitle_descripcion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.descripcion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.costo}" filterBy="#{item.costo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListArticulosTitle_costo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.costo}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.existencia}" filterBy="#{item.existencia}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListArticulosTitle_existencia}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.existencia}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.estado}" filterBy="#{item.estado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListArticulosTitle_estado}"/>
+                    </f:facet>
+                    <h:selectBooleanCheckbox id="estado" value="#{item.estado}" title="#{myBundle.EditArticulosTitle_estado}"  disabled="true"/>
+                </p:column>
+
+                <ui:remove>
+                    <p:column sortBy="#{item.idMarca.descripcion}" filterBy="#{item.idMarca.descripcion}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListArticulosTitle_idMarca}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idMarca.descripcion}"/>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.idProveedor.id}" filterBy="#{item.idProveedor.id}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListArticulosTitle_idProveedor}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idProveedor.id}"/>
+                    </p:column>
+                </ui:remove>
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{articulosController.prepareCreate}" update=":ArticulosCreateForm" oncomplete="PF('ArticulosCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":ArticulosViewForm" oncomplete="PF('ArticulosViewDialog').show()" disabled="#{empty articulosController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":ArticulosEditForm" oncomplete="PF('ArticulosEditDialog').show()" disabled="#{empty articulosController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{articulosController.delete}" update=":growl,datalist" disabled="#{empty articulosController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>
